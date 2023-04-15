@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>Main</title><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css'/><style>.github-fork-ribbon:before { background-color: #333; }</style><link rel="stylesheet" href="css/Agda.css"></head><body><a class='github-fork-ribbon'href='https://github.com/anonymous-agda/hoare-ledgers/tree/master/Main.agda'data-ribbon='Source code on Github' title='Source code on Github'>Source code on Github</a><pre class="Agda"><a id="1" class="Symbol">{-#</a> <a id="5" class="Keyword">OPTIONS</a> <a id="13" class="Pragma">--rewriting</a> <a id="25" class="Symbol">#-}</a> <a id="29" class="Comment">-- needed for UTxO hashing</a>
+<a id="56" class="Keyword">module</a> <a id="63" href="Main.html" class="Module">Main</a> <a id="68" class="Keyword">where</a>
+
+<a id="75" class="Comment">-------------------------</a>
+<a id="101" class="Comment">-- ** Linear bank ledgers</a>
+<a id="127" class="Comment">-------------------------</a>
+
+<a id="154" class="Comment">-- Shallow states, shallow predicates</a>
+<a id="192" class="Comment">-- ∙ S := K → Value</a>
+<a id="212" class="Comment">-- ∙ ⟦_⟧ := S → S</a>
+<a id="230" class="Comment">-- ∙ P := S → Set</a>
+<a id="248" class="Comment">-- ∙ Separation := IMPOSSIBLE</a>
+<a id="278" class="Keyword">open</a> <a id="283" class="Keyword">import</a> <a id="290" href="Shallow.Main.html" class="Module">Shallow.Main</a>
+
+<a id="304" class="Comment">-- Deep states, shallow predicates</a>
+<a id="339" class="Comment">-- ∙ S := Map⟨ K ↦ Value ⟩</a>
+<a id="366" class="Comment">-- ∙ ⟦_⟧ := S → S</a>
+<a id="384" class="Comment">-- ∙ P := S → Set</a>
+<a id="402" class="Comment">-- ∙ Separation := _⊎_</a>
+<a id="425" class="Keyword">open</a> <a id="430" class="Keyword">import</a> <a id="437" href="Middle.Main.html" class="Module">Middle.Main</a>
+
+<a id="450" class="Comment">-- Deep states, deep predicates</a>
+<a id="482" class="Comment">-- ∙ S := Map⟨ K ↦ Value ⟩</a>
+<a id="509" class="Comment">-- ∙ ⟦_⟧ := S → S</a>
+<a id="527" class="Comment">-- ∙ P := Assertion</a>
+<a id="547" class="Comment">-- ∙ Separation := _⊎_</a>
+<a id="570" class="Keyword">open</a> <a id="575" class="Keyword">import</a> <a id="582" href="Deep.Main.html" class="Module">Deep.Main</a>
+
+<a id="593" class="Comment">-- &lt;Deep&gt; + shallow embedding of Hoare triples</a>
+<a id="640" class="Comment">--   ⋮</a>
+<a id="647" class="Comment">--   ∙ {P}l{Q} = ∀ s. P(s) → Q(⟦l⟧s)</a>
+<a id="684" class="Keyword">open</a> <a id="689" class="Keyword">import</a> <a id="696" href="ShallowHoare.Main.html" class="Module">ShallowHoare.Main</a>
+
+<a id="715" class="Comment">-- Simplest possible design: allowing negative values without explicit errors.</a>
+<a id="794" class="Comment">-- ∙ S := K → ℤ</a>
+<a id="810" class="Comment">-- ∙ ⟦_⟧ := S → S</a>
+<a id="828" class="Comment">-- ∙ P := S → Set</a>
+<a id="846" class="Comment">-- ∙ Separation := _◇_</a>
+<a id="869" class="Keyword">open</a> <a id="874" class="Keyword">import</a> <a id="881" href="ValueSepInt.Main.html" class="Module">ValueSepInt.Main</a>
+
+<a id="899" class="Comment">-- Monoidal separatation on values instead of participants.</a>
+<a id="959" class="Comment">-- ∙ S := Map⟨ K ↦ Value ⟩</a>
+<a id="986" class="Comment">-- ∙ ⟦_⟧ := S → Maybe S</a>
+<a id="1010" class="Comment">-- ∙ P := S → Set</a>
+<a id="1028" class="Comment">-- ∙ Separation := _◇_</a>
+<a id="1051" class="Keyword">open</a> <a id="1056" class="Keyword">import</a> <a id="1063" href="ValueSep.Main.html" class="Module">ValueSep.Main</a>
+
+<a id="1078" class="Comment">-- Simplified version of &lt;ValueSep&gt;.</a>
+<a id="1115" class="Comment">-- ∙ S := K → ℕ</a>
+<a id="1131" class="Comment">-- ∙ ⟦_⟧ := S → Maybe S</a>
+<a id="1155" class="Comment">-- ∙ P := S → Set</a>
+<a id="1173" class="Comment">-- ∙ Separation := _◇_</a>
+<a id="1196" class="Keyword">open</a> <a id="1201" class="Keyword">import</a> <a id="1208" href="ValueSepSimple.Main.html" class="Module">ValueSepSimple.Main</a>
+
+<a id="1229" class="Comment">-- &lt;ValueSepSimple&gt;, but with exact maps-to/↦ predicate.</a>
+<a id="1286" class="Comment">-- ∙ S := K → ℕ</a>
+<a id="1302" class="Comment">-- ∙ ⟦_⟧ := S → Maybe S</a>
+<a id="1326" class="Comment">-- ∙ P := S → Set</a>
+<a id="1344" class="Comment">-- ∙ Separation := _◇_</a>
+<a id="1367" class="Keyword">open</a> <a id="1372" class="Keyword">import</a> <a id="1379" href="ValueSepExact.Main.html" class="Module">ValueSepExact.Main</a>
+
+<a id="1399" class="Comment">-----------------------------</a>
+<a id="1429" class="Comment">-- ** UTxO blockchain ledgers</a>
+<a id="1459" class="Comment">-------------------------</a>
+
+<a id="1486" class="Comment">-- Initial prototype for extending to the UTxO case.</a>
+<a id="1539" class="Comment">-- ∙ S := Set⟨ UTXO ⟩</a>
+<a id="1561" class="Comment">-- ∙ ⟦_⟧ := S → S</a>
+<a id="1579" class="Comment">-- ∙ P := S → Set</a>
+<a id="1597" class="Comment">-- ∙ Separation := _⊎_</a>
+<a id="1620" class="Keyword">open</a> <a id="1625" class="Keyword">import</a> <a id="1632" href="UTxO.Main.html" class="Module">UTxO.Main</a>
+
+<a id="1643" class="Comment">-- &lt;UTxO&gt; variant that explicitly errors/invalidity.</a>
+<a id="1696" class="Comment">-- ∙ S := Map⟨ TxOutputRef ↦ TxOutput ⟩</a>
+<a id="1736" class="Comment">-- ∙ ⟦_⟧ := S → Maybe S</a>
+<a id="1760" class="Comment">-- ∙ P := S → Set</a>
+<a id="1778" class="Comment">-- ∙ Separation := _⊎_</a>
+<a id="1801" class="Keyword">open</a> <a id="1806" class="Keyword">import</a> <a id="1813" href="UTxOErr.Main.html" class="Module">UTxOErr.Main</a>
+
+<a id="1827" class="Comment">-- Value-separated Abstract UTxO (AUTxO).</a>
+<a id="1869" class="Comment">-- ∙ S := Bag⟨ Address × Value ⟩</a>
+<a id="1902" class="Comment">-- ∙ ⟦_⟧ := S → Maybe S</a>
+<a id="1926" class="Comment">-- ∙ P := S → Set</a>
+<a id="1944" class="Comment">-- ∙ Separation := _◇_</a>
+<a id="1967" class="Keyword">open</a> <a id="1972" class="Keyword">import</a> <a id="1979" href="ValueSepUTxO.Main.html" class="Module">ValueSepUTxO.Main</a>
+
+<a id="1998" class="Comment">-- Sound abstraction for UTxO↔AUTxO.</a>
+<a id="2035" class="Keyword">open</a> <a id="2040" class="Keyword">import</a> <a id="2047" href="ConcreteToAbstract.html" class="Module">ConcreteToAbstract</a>
+</pre></body></html>
